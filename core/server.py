@@ -31,7 +31,11 @@ call_sessions = {}
 bot = VoiceBot()
 transcriber = Transcriber()
 synthesizer = Synthesizer()
-audio_manager = AudioManager(base_dir="recordings")
+audio_manager = AudioManager(
+    base_dir="recordings",
+    twilio_account_sid=os.getenv("TWILIO_ACCOUNT_SID"),
+    twilio_auth_token=os.getenv("TWILIO_AUTH_TOKEN")
+)
 
 # Public URL (updated when ngrok starts)
 BASE_URL = ""

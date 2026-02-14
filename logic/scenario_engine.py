@@ -62,11 +62,25 @@ class ScenarioEngine:
         if self.turn_count >= self.max_turns:
             return True
         
-        # Simple heuristic: if the bot says "Goodbye" or "Thanks, bye", end it.
+        # Check if the bot's last message indicates the conversation is ending
         last_message = self.history[-1]["content"].lower()
-        if "bye" in last_message or "have a good day" in last_message:
-            return True
-            
+        
+        # List of phrases that indicate the conversation is ending
+        end_phrases = [
+            "bye",
+            "goodbye", 
+            "have a good day",
+            "have a great day",
+            "see you",
+            "talk to you later",
+            "take care"
+        ]
+        
+        for phrase in end_phrases:
+            if phrase in last_message:
+                print(f"Conversation ending detected: '{phrase}' found in: {last_message}")
+                return True
+                
         return False
         
     def get_transcript(self):

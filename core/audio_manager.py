@@ -2,17 +2,25 @@ import requests
 import os
 
 class AudioManager:
-    def __init__(self, base_dir="recordings"):
+    def __init__(self, base_dir="recordings", twilio_account_sid=None, twilio_auth_token=None):
         self.base_dir = base_dir
+        self.twilio_account_sid = twilio_account_sid
+        self.twilio_auth_token = twilio_auth_token
         if not os.path.exists(self.base_dir):
             os.makedirs(self.base_dir)
 
     def download_audio(self, url: str, filename: str):
         """
         Downloads audio from a URL and saves it to the base_dir.
+        For Twilio URLs, uses HTTP Basic Auth with Account SID and Auth Token.
         """
         try:
-            response = requests.get(url)
+            # If it's a Twilio URL and we have credentials, use authentication
+            auth = None
+            if "twilio.com" in url and self.twilio_account_sid and self.twilio_auth_token:
+                auth = (self.twilio_account_sid, self.twilio_auth_token)
+            
+            response = requests.get(url, auth=auth)
             if response.status_code == 200:
                 file_path = os.path.join(self.base_dir, filename)
                 with open(file_path, "wb") as f:
