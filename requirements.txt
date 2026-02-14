@@ -1,0 +1,11 @@
+python-multipart
+openai
+twilio
+python-dotenv
+pydub
+requests
+fastapi
+uvicorn
+pyngrok
+pydantic
+colorama
