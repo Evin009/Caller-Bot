@@ -1,4 +1,4 @@
-# AI Patient Stress Tester
+# AI Patient Stress Testers
 
 A small toolset for automating voice-based stress tests of AI agents. The project provides scripts to simulate phone calls/interactions, run scenarios, and verify agent behavior.
 
