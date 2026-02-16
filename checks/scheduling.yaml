@@ -1,0 +1,71 @@
+name: "Scheduling Scenario Quality"
+description: "Validates scheduling flow quality for medical receptionist calls"
+
+checks:
+  - name: "Asked for DOB"
+    type: boolean
+    query: "Did the receptionist ask for the patient's date of birth?"
+    required: true
+    weight: 10
+
+  - name: "Response Time Check"
+    type: threshold
+    metric: "assistant_turn_count"
+    max: 15
+    weight: 5
+
+  - name: "Confirmed Appointment Details"
+    type: boolean
+    query: "Did the receptionist confirm the appointment details (date, time, doctor) before ending the call?"
+    required: true
+    weight: 15
+
+  - name: "No Hallucinations"
+    type: boolean
+    query: "Did the receptionist make up any false information, dates, or details that were not provided by the patient?"
+    required: false
+    weight: 20
+
+  - name: "Appropriate Greeting"
+    type: content
+    subtype: semantic
+    query: "Did the receptionist greet the caller professionally and introduce themselves or the practice?"
+    weight: 8
+
+  - name: "Proper Closing"
+    type: boolean
+    query: "Did the receptionist provide a polite closing with next steps or confirmation?"
+    required: false
+    weight: 7
+
+  - name: "Conversation Efficiency"
+    type: threshold
+    metric: "turn_count"
+    max: 20
+    weight: 5
+
+  - name: "No Prohibited Phrases"
+    type: content
+    subtype: phrases
+    prohibited:
+      - "I don't know"
+      - "not my job"
+      - "can't help"
+      - "computer says no"
+    weight: 10
+
+  - name: "Professional Tone"
+    type: boolean
+    query: "Did the receptionist maintain a professional, helpful, and courteous tone throughout the conversation?"
+    weight: 10
+
+  - name: "Gathered Required Information"
+    type: content
+    subtype: semantic
+    query: "Did the receptionist gather all necessary information for scheduling (patient name, contact info, reason for visit)?"
+    required: true
+    weight: 10
+
+scoring:
+  pass_threshold: 80
+  max_score: 100

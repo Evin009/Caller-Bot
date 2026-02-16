@@ -1,0 +1,58 @@
+name: "General Call Quality"
+description: "General quality checks applicable to all receptionist calls"
+
+checks:
+  - name: "Response Count"
+    type: threshold
+    metric: "response_count"
+    max: 25
+    weight: 5
+
+  - name: "Appropriate Response Length"
+    type: threshold
+    metric: "avg_response_length"
+    max: 200
+    weight: 5
+
+  - name: "Politeness Check"
+    type: content
+    subtype: phrases
+    required:
+      - "please"
+      - "thank"
+    weight: 10
+
+  - name: "No Interruptions"
+    type: boolean
+    query: "Did the receptionist allow the caller to finish speaking before responding?"
+    weight: 15
+
+  - name: "Active Listening"
+    type: boolean
+    query: "Did the receptionist demonstrate active listening by acknowledging what the caller said?"
+    weight: 15
+
+  - name: "Clear Communication"
+    type: boolean
+    query: "Were the receptionist's responses clear, concise, and easy to understand?"
+    weight: 15
+
+  - name: "Appropriate Formality"
+    type: boolean
+    query: "Did the receptionist maintain appropriate professional formality for a medical office?"
+    weight: 10
+
+  - name: "Offered Assistance"
+    type: boolean
+    query: "Did the receptionist proactively offer help or ask if there was anything else needed?"
+    weight: 10
+
+  - name: "Correct Information Only"
+    type: boolean
+    query: "Did the receptionist only provide accurate information without making assumptions?"
+    required: true
+    weight: 15
+
+scoring:
+  pass_threshold: 75
+  max_score: 100

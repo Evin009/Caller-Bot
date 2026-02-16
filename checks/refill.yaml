@@ -1,0 +1,54 @@
+name: "Prescription Refill Quality"
+description: "Validates prescription refill request handling"
+
+checks:
+  - name: "Asked for Patient Info"
+    type: boolean
+    query: "Did the receptionist ask for the patient's name and date of birth to verify identity?"
+    required: true
+    weight: 15
+
+  - name: "Asked for Medication Details"
+    type: boolean
+    query: "Did the receptionist ask for the medication name and dosage?"
+    required: true
+    weight: 15
+
+  - name: "Checked Pharmacy Information"
+    type: boolean
+    query: "Did the receptionist confirm or ask for the pharmacy name and phone number?"
+    required: true
+    weight: 15
+
+  - name: "Provided Timeline"
+    type: boolean
+    query: "Did the receptionist provide an estimated timeline for when the refill would be ready?"
+    weight: 10
+
+  - name: "Conversation Length"
+    type: threshold
+    metric: "turn_count"
+    max: 15
+    weight: 5
+
+  - name: "No False Promises"
+    type: boolean
+    query: "Did the receptionist avoid making guarantees about approval without doctor review?"
+    required: true
+    weight: 20
+
+  - name: "Professional Closure"
+    type: boolean
+    query: "Did the receptionist end with clear next steps and contact information?"
+    weight: 10
+
+  - name: "Required Information Complete"
+    type: content
+    subtype: semantic
+    query: "Did the receptionist collect all required information: patient identifier, medication details, and pharmacy?"
+    required: true
+    weight: 10
+
+scoring:
+  pass_threshold: 85
+  max_score: 100
